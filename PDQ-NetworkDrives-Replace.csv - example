@@ -1,0 +1,11 @@
+find,replace
+\\OldFileServer\BA-STAFF,\\contoso.com\shares\BA-STAFF
+\\OldFileServer\GOOGLE-DRIVE,\\contoso.com\shares\SOME-NEW-DRIVE
+\\OldFileServer\IT$,\\contoso.com\shares\IT$
+\\OldFileServer\STAFF,\\contoso.com\shares\STAFF
+\\OldFileServer\STUDENTS,\\contoso.com\shares\STUDENTS
+\\OldFileServer\TEACHERS,\\contoso.com\shares\TEACHERS
+\\contoso.com\shares\OLD-PUBLIC-FOLDER,\\contoso.com\shares\NEW-PUBLIC-FOLDER
+\\OldFileServer2\programs,DELETE
+\\contoso.com\shares\LTCache,DELETE
+\\contoso.com\shares\apps,DELETE
