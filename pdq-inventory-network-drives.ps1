@@ -13,6 +13,7 @@ else{
     else{ Enable-WindowsOptionalFeature -Online -FeatureName RSATClient-Roles-AD-Powershell | Out-Null }
 }
 
+# Set PDQ Inventory to scan this path to collect all the inventory data as a scan after deployment in PDQ Deploy
 $RegPath = "HKLM:\SOFTWARE\Admin Arsenal\InventoryData"
 
 Get-ChildItem -Path $RegPath | ? { $_.Name -match "NetworkDrives" } | Remove-Item
