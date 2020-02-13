@@ -7,7 +7,9 @@ PDQ Inventory Setup:
 2) Create a new scan profile
 3) I named mine "Network Drive Scan"
 4) Add a Registry scanner with the following settings
-4a) Hive: HKEY_LOCAL_MACHINE    
+
+4a) Hive: HKEY_LOCAL_MACHINE  
+
 4b) Include Pattern(s): SOFTWARE\Admin Arsenal\InventoryData\NetworkDrives-\*\\\*
 5) Save the new scan profile
 
@@ -18,5 +20,6 @@ PDQ Deploy Setup:
 4) Under the script properties 
 
 4a) Set "Scanning" to "Scan After Deployment"
+
 4b) Select the scan profile we just made before
 5) Save your deployment and test it on some non-production clients
