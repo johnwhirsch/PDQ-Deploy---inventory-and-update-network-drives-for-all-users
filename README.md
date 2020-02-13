@@ -8,7 +8,7 @@ PDQ Inventory Setup:
 3) I named mine "Network Drive Scan"
 4) Add a Registry scanner with the following settings:
     a) Hive: HKEY_LOCAL_MACHINE
-    b) Include Pattern(s): SOFTWARE\Admin Arsenal\InventoryData\NetworkDrives-*\\*
+    b) Include Pattern(s): SOFTWARE\Admin Arsenal\InventoryData\NetworkDrives-\*\\\*
 5) Save the new scan profile
 
 PDQ Deploy Setup:
