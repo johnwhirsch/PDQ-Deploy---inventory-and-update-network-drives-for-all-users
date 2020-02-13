@@ -1,5 +1,5 @@
 # PDQ-Deploy---inventory-and-update-network-drives-for-all-users
-This script was designed for use with PDQ Deploy to create an inventory and update network drives for all users profiles on a computer.
+This script was designed for use with PDQ Deploy to create an inventory and update network drives for all users profiles on a computer. This script has only been tested on Windows 10 computers, please do your own testing before deploying this script.
 
 
 PDQ Inventory Setup:
