@@ -1,11 +1,14 @@
 # This share needs to be accessible by the PDQ Deploy user. This file must exist even if it is blank - the script will error out if it doesn't
-$replacements = import-csv -Path "Microsoft.PowerShell.Core\FileSystem::\\int.contoso.com\shared\IT$\PDQRepository\PDQNetworkShares.csv" -ErrorAction Continue
+$replacements = import-csv -Path "Microsoft.PowerShell.Core\FileSystem::\\woodcliff.local\shared\IT$\PDQRepository\PDQNetworkShares.csv" -ErrorAction Continue
 
 # true = Only scan user drives; false = Scan and update drives if they match any of the shares in the $replacements CSV
 $scanonly = $true;
 
 # false = Only save drives that don't exist in the replace column of the $replacements CSV
 $savealldrives = $true; 
+
+# SilentlyContinue = normal output; Continue = verbose output
+$VerbosePreference = "SilentlyContinue"
 
 # Set PDQ Inventory to scan this path to collect all the inventory data as a scan after deployment in PDQ Deploy
 $RegPath = "HKLM:\SOFTWARE\Admin Arsenal\InventoryData"
@@ -25,7 +28,8 @@ function Save-PDQInventory {
 
         if($(Test-Path -Path $InventoryLocation) -ne $true){ New-Item -Path $RegPath -Name "NetworkDrives-$($Username)" -Force }
         
-        Write-Verbose "Attempting to add to registry: $($NetworkDrive) > $($NetworkDrivePath)"
+        Write-Verbose "Attempting to add to registry: $($NetworkDrive) > $($NetworkDrivePath)`n"
+
         New-ItemProperty -Path $InventoryLocation -Name $($NetworkDrive) -Value $($NetworkDrivePath) -Force | Out-Null
         
     }catch{ Write-Output "Unable to write inventory to the registry."; exit 666; }
@@ -37,16 +41,18 @@ catch { Write-Output "Error getting list of user profiles"; Write-Output $error[
 
 Write-Output "Found the following $($UserProfiles.Count) user profiles:"; Write-Output $UserProfiles | FT; Write-Output "`n`n";
 
-# Loop through each profile on the machine</p>
+# Loop through each profile on the machine
 Foreach ($UserProfile in $UserProfiles) {
     # Load User ntuser.dat if it's not already loaded
     If (($ProfileWasLoaded = Test-Path Registry::HKEY_USERS\$($UserProfile.SID)) -eq $false) {
-        Write-Verbose "Mounting User Hive: $($UserProfile.UserHive)"
+        Write-Verbose "Mounting User Hive: $($UserProfile.UserHive)`n"
         Start-Process -FilePath "CMD.EXE" -ArgumentList "/C REG.EXE LOAD HKU\$($UserProfile.SID) $($UserProfile.UserHive)" -Wait -WindowStyle Hidden
     }
 
-    # Manipulate the registry
-    try{ $RegistryNetworkDrives = Get-Item -Path "Registry::HKEY_USERS\$($UserProfile.SID)\Network\*" }
+    Write-Verbose "Testing if hive is loaded: $(Test-Path Registry::HKEY_USERS\$($UserProfile.SID))"
+
+    # Get user's network drives
+    try{ $RegistryNetworkDrives = Get-Item -Path "Registry::HKEY_USERS\$($UserProfile.SID)\Network\*" -Verbose }
     catch { Write-Output "Error getting information from: $RegistryNetworkDrives"; Write-Output $error[0].Exception.Message; exit 664; }
     
     Write-Output "Getting all user network drives for: $($UserProfile.UserName)"
@@ -55,7 +61,7 @@ Foreach ($UserProfile in $UserProfiles) {
         foreach($RegistryNetworkDrive in $RegistryNetworkDrives){
             try{                
 
-                Write-Verbose "Trying to get drives from: $($RegistryNetworkDrive)\RemotePath"
+                Write-Verbose "Trying to get drives from: $($RegistryNetworkDrive)\RemotePath`n"
 
                 $NetworkDrive = $(Get-ItemProperty -Path "Registry::$($RegistryNetworkDrive)").PSChildName;
                 $NetworkDrivePath = Get-ItemPropertyValue -Path "Registry::$($RegistryNetworkDrive)" -Name "RemotePath"
