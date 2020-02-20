@@ -19,7 +19,7 @@ Get-ChildItem -Path $RegPath -ErrorAction SilentlyContinue | ? { $_.Name -match 
 
 function Get-UsernameFromHivePath {
     param([Parameter(Mandatory=$True)][string]$HivePath)
-    return $(select-string -InputObject $HivePath -Pattern '(?!=Users\\)([A-Za-z\s\-_])\w+(?=\\NTuser.dat)' | %{ $_.Matches[0].Groups[0].Value } )
+    return $(select-string -InputObject $HivePath -Pattern '(?!=Users\\)([A-Za-z0-9\s\-\.\s_]+)\w+(?=\\NTuser.dat)' | %{ $_.Matches[0].Groups[0].Value } )
 }
 
 function Save-PDQNetworkInventory {
