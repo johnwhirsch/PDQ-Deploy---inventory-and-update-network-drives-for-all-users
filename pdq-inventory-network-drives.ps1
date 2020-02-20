@@ -1,6 +1,6 @@
 # This share needs to be accessible by the PDQ Deploy user. This file must exist even if it is blank - the script will error out if it doesn't
-$ShareReplacements = import-csv -Path "D:\Users\johhir\Desktop\PDQNetworkShares.csv" -ErrorAction Continue
-$PrinterReplacements = import-csv -Path "D:\Users\johhir\Desktop\PDQNetworkPrinters.csv" -ErrorAction Continue
+$ShareReplacements = import-csv -Path "Microsoft.PowerShell.Core\FileSystem::\\contoso.com\share\PDQNetworkShares.csv" -ErrorAction Continue
+$PrinterReplacements = import-csv -Path "Microsoft.PowerShell.Core\FileSystem::\\contoso.com\share\PDQNetworkPrinters.csv" -ErrorAction Continue
 
 # true = Only scan user drives; false = Scan and update drives if they match any of the shares in the $ShareReplacements CSV
 $scanonly = $true;
